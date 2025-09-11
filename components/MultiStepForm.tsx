@@ -127,18 +127,21 @@ export default function MultiStepForm() {
     setIsSubmitting(true);
     
     try {
-      // GASエンドポイントに送信
-      const response = await fetch(process.env.NEXT_PUBLIC_GAS_URL!, {
+      // APIルート経由でGASに送信
+      const response = await fetch('/api/submit', {
         method: 'POST',
-        mode: 'no-cors', // CORS回避
         headers: {
-          'Content-Type': 'text/plain',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
       
-      // no-corsモードでは結果が取得できないので、常に成功とみなす
-      // 実際のエラーはGAS側のログで確認
+      const result = await response.json();
+      
+      // レスポンスを確認
+      if (!result.success) {
+        throw new Error(result.error || '送信に失敗しました');
+      }
       
       // 少し待機（送信処理を待つ）
       await new Promise(resolve => setTimeout(resolve, 1500));
