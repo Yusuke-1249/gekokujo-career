@@ -93,7 +93,7 @@ export default function MultiStepForm() {
   };
 
   const validateStep = () => {
-    const newErrors: Partial<FormData> = {};
+    const newErrors: Partial<Record<keyof FormData, string>> = {};
     
     if (step === 8) {
       if (!formData.lastName) newErrors.lastName = "姓を入力してください";
