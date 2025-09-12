@@ -3,34 +3,28 @@ export default function TestimonialSection() {
     {
       name: "T.K さん",
       before: "コンビニバイト",
-      beforeSalary: "年収180万円",
       after: "営業職",
-      afterSalary: "年収700万円",
       company: "大手不動産会社",
       age: "24歳・男性",
       period: "内定まで2週間",
       image: "/images/success-1.jpg",
-      comment: "バイトを転々としていた自分でも、未経験からIT営業に挑戦できました。最初は不安でしたが、専任アドバイザーが履歴書の書き方から面接での話し方まで、本当に細かく教えてくれました。今では大手企業で正社員として働き、将来の不安がなくなりました。"
+      comment: "バイトを転々としていた自分でも、未経験から営業に挑戦できました。最初は不安でしたが、専任アドバイザーが履歴書の書き方から面接での話し方まで、本当に細かく教えてくれました。今では大手企業で正社員として働き、将来の不安がなくなりました。"
     },
     {
       name: "M.S さん",
       before: "倉庫作業員",
-      beforeSalary: "年収240万円",
       after: "建築系管理職",
-      afterSalary: "年収480万円",
       company: "大手ゼネコン",
-      age: "28歳・女性",
+      age: "25歳・女性",
       period: "内定まで1週間",
       image: "/images/user2.jpg", // プレースホルダー
-      comment: "派遣で5年間働いていましたが、将来が不安で転職を決意。総合職は無理だと思っていましたが、私の経験を活かせる企業を見つけてくれました。年収だけでなく、福利厚生も充実していて、初めてボーナスをもらった時は本当に嬉しかったです。"
+      comment: "派遣で5年間働いていましたが、将来が不安で転職を決意。専門職は無理だと思っていましたが、私の経験を活かせる企業を見つけてくれました。年収だけでなく、福利厚生も充実していて、初めてボーナスをもらった時は本当に嬉しかったです。"
     },
     {
       name: "S.Y さん",
       before: "フリーター",
-      beforeSalary: "年収200万円",
       after: "機械系エンジニア",
-      afterSalary: "年収430万円",
-      company: "上場メーカー",
+      company: "メーカー",
       age: "22歳・男性",
       period: "内定まで5日",
       image: "/images/user3.jpg", // プレースホルダー
@@ -42,7 +36,7 @@ export default function TestimonialSection() {
     <section className="py-12 px-4 bg-white">
       <div className="max-w-md mx-auto">
         <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
-          転職成功者の声
+          転職成功者にインタビューしました！
         </h2>
         <div className="space-y-8">
           {testimonials.map((item, index) => (
@@ -67,13 +61,11 @@ export default function TestimonialSection() {
                   <div className="text-center flex-1">
                     <p className="text-xs text-gray-500 mb-1">Before</p>
                     <p className="font-bold text-gray-700 text-sm">{item.before}</p>
-                    <p className="text-sm text-gray-600">{item.beforeSalary}</p>
                   </div>
                   <div className="text-primary text-2xl mx-2">→</div>
                   <div className="text-center flex-1">
                     <p className="text-xs text-primary mb-1">After</p>
                     <p className="font-bold text-primary-dark text-sm">{item.after}</p>
-                    <p className="text-sm font-bold text-primary">{item.afterSalary}</p>
                     <p className="text-xs text-gray-600 mt-1">{item.company}</p>
                   </div>
                 </div>
@@ -88,15 +80,6 @@ export default function TestimonialSection() {
               </div>
             </div>
           ))}
-        </div>
-        
-        <div className="mt-8 p-4 bg-accent-light rounded-lg">
-          <p className="text-center text-sm font-bold text-accent-dark mb-2">
-            あなたも成功者の仲間入り！
-          </p>
-          <p className="text-center text-xs text-gray-600">
-            ※個人の感想です。効果には個人差があります。
-          </p>
         </div>
       </div>
     </section>

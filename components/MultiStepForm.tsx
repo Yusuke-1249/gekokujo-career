@@ -47,6 +47,7 @@ export default function MultiStepForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [showStudentError, setShowStudentError] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const progress = ((step - 1) / (TOTAL_STEPS - 1)) * 100;
 
@@ -87,6 +88,13 @@ export default function MultiStepForm() {
     }
   };
 
+  const formatPhoneNumber = (value: string): string => {
+    const numbers = value.replace(/[^\d]/g, '');
+    if (numbers.length <= 3) return numbers;
+    if (numbers.length <= 7) return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+  };
+
   const handleInputChange = (field: keyof FormData, value: string | boolean) => {
     setFormData({ ...formData, [field]: value });
     setErrors({ ...errors, [field]: "" });
@@ -111,8 +119,8 @@ export default function MultiStepForm() {
     if (step === 9) {
       if (!formData.email) newErrors.email = "メールアドレスを入力してください";
       if (!formData.phone) newErrors.phone = "電話番号を入力してください";
-      if (formData.phone && formData.phone.length < 10) {
-        newErrors.phone = "電話番号は10桁以上で入力してください";
+      if (formData.phone && formData.phone.length !== 11) {
+        newErrors.phone = "電話番号は11桁で入力してください";
       }
       if (!formData.agreed) newErrors.agreed = "同意が必要です";
     }
@@ -124,57 +132,59 @@ export default function MultiStepForm() {
   const handleSubmit = async () => {
     if (!validateStep()) return;
     
+    // 即座に完了画面を表示（楽観的UI）
+    setStep(10);
     setIsSubmitting(true);
+    setSubmitError(null);
     
-    try {
-      // APIルート経由でGASに送信
-      const response = await fetch('/api/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      
-      const result = await response.json();
-      
-      // レスポンスを確認
-      if (!result.success) {
-        throw new Error(result.error || '送信に失敗しました');
+    // フォームデータをコピー（電話番号はハイフンなしで送信）
+    const submitData = {
+      ...formData,
+      phone: formData.phone.replace(/-/g, '') // ハイフンを除去
+    };
+    
+    // バックグラウンドで送信処理（リトライ機能付き）
+    let retryCount = 0;
+    const maxRetries = 3;
+    
+    while (retryCount < maxRetries) {
+      try {
+        const response = await fetch('/api/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(submitData),
+        });
+        
+        const result = await response.json();
+        
+        if (!result.success) {
+          throw new Error(result.error || '送信に失敗しました');
+        }
+        
+        // 成功したらフォームリセット
+        setFormData(initialFormData);
+        setIsSubmitting(false);
+        break; // 成功したらループを抜ける
+        
+      } catch (error) {
+        retryCount++;
+        
+        if (retryCount >= maxRetries) {
+          // すべてのリトライが失敗した場合
+          console.error('送信エラー:', error);
+          setSubmitError('送信処理でエラーが発生しました。お手数ですが、お電話にてお問い合わせください。');
+          setIsSubmitting(false);
+          break;
+        }
+        
+        // リトライ前に1秒待機
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
-      
-      // 少し待機（送信処理を待つ）
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // フォームリセット
-      setFormData({
-        lastName: "",
-        firstName: "",
-        lastNameKana: "",
-        firstNameKana: "",
-        email: "",
-        phone: "",
-        gender: "",
-        age: "",
-        education: "",
-        workLocation: "",
-        jobType: "",
-        startPeriod: "",
-        employmentStatus: "",
-        drivingLicense: "",
-        agreed: false,
-      });
-      
-      // 成功メッセージを表示してからリセット
-      setStep(10); // 完了画面を表示
-      
-    } catch (error) {
-      console.error("送信エラー:", error);
-      alert("送信中にエラーが発生しました。お手数ですが、もう一度お試しください。");
-    } finally {
-      setIsSubmitting(false);
     }
   };
+  
 
   const renderStep = () => {
     switch (step) {
@@ -486,17 +496,26 @@ export default function MultiStepForm() {
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">電話番号（ハイフンなし）</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">電話番号</label>
               <input
                 type="tel"
-                value={formData.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value.replace(/[^0-9]/g, ""))}
+                value={formatPhoneNumber(formData.phone)}
+                onChange={(e) => {
+                  const rawValue = e.target.value.replace(/[^0-9]/g, "");
+                  if (rawValue.length <= 11) {
+                    handleInputChange("phone", rawValue);
+                  }
+                }}
                 className={`w-full p-3 border-2 rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${
                   errors.phone ? "border-red-300" : "border-gray-200"
                 }`}
-                placeholder="09012345678"
+                placeholder="090-1234-5678"
+                maxLength={13} // ハイフン含めて13文字
               />
               {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+              {formData.phone && formData.phone.length > 0 && formData.phone.length < 11 && (
+                <p className="text-amber-600 text-xs mt-1">11桁の電話番号を入力してください</p>
+              )}
             </div>
             <div className="flex items-start space-x-3">
               <input
@@ -531,6 +550,21 @@ export default function MultiStepForm() {
         // 完了画面
         return (
           <div className="space-y-6 py-4">
+            {/* エラーメッセージ表示 */}
+            {submitError && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-lg"
+              >
+                <p className="font-bold mb-1">ご注意</p>
+                <p className="text-sm">{submitError}</p>
+                <p className="text-sm mt-2">お急ぎの場合は下記までご連絡ください：</p>
+                <p className="text-sm font-bold">電話: 0120-XXX-XXXX</p>
+                <p className="text-sm font-bold">LINE ID: @gekokujo-career</p>
+              </motion.div>
+            )}
+            
             {/* 転職相談お申し込み完了バー */}
             <div className="bg-gradient-to-r from-green-500 to-green-600 text-white text-center py-3 rounded-lg font-bold shadow-lg">
               転職相談お申し込み完了

@@ -5,7 +5,13 @@ export async function POST(request: NextRequest) {
     // リクエストボディを取得
     const formData = await request.json();
     
-    console.log('APIルート受信データ:', formData);
+    // 電話番号に'を追加してスプレッドシートで文字列として扱う
+    const modifiedFormData = {
+      ...formData,
+      phone: formData.phone ? `'${formData.phone}` : formData.phone
+    };
+    
+    console.log('APIルート受信データ:', modifiedFormData);
     
     // GASエンドポイントに転送
     const gasUrl = process.env.GAS_URL || process.env.NEXT_PUBLIC_GAS_URL;
@@ -19,7 +25,7 @@ export async function POST(request: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(modifiedFormData),
     });
     
     // GASからのレスポンステキストを取得
