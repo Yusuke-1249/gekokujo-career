@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "下剋上キャリア | 今より稼げる仕事へ",
   description: "下剋上キャリアで理想の転職を実現。年収UP・未経験OK・完全無料の転職支援サービス。あなたに合った高収入求人を無料でご紹介。",
   keywords: "下剋上キャリア,転職,未経験,年収UP,無料,転職エージェント",
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
   openGraph: {
     title: "下剋上キャリア | 今より稼げる仕事へ",
     description: "下剋上キャリアで理想の転職を実現。あなたに合った高収入求人を無料でご紹介",
