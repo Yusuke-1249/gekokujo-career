@@ -183,7 +183,7 @@ export default function MultiStepForm() {
           <div className="space-y-4">
             <h2 className="text-xl font-bold text-gray-900">希望の勤務地を選択してください</h2>
             <div className="grid grid-cols-1 gap-3">
-              {["大阪", "愛知", "東京", "千葉", "神奈川"].map((location) => (
+              {["大阪", "愛知", "東京", "千葉", "神奈川","上記以外"].map((location) => (
                 <button
                   key={location}
                   type="button"

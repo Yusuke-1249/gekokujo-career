@@ -3,26 +3,23 @@ export default function AchievementSection() {
     {
       title: "平均年収UP",
       value: "120",
-      unit: "万円",
-      note: "※2023年実績・個人差あり"
+      unit: "万円"
     },
     {
-      title: "累計入社者数",
-      value: "3,500",
-      unit: "名",
-      note: "※2020年〜2024年累計"
+      title: "サービス満足度",
+      value: "96",
+      unit: "%",
+      note: "※直近6ヶ月のアンケート結果"
     },
     {
       title: "内定率",
-      value: "92",
-      unit: "%",
-      note: "※3ヶ月以内・2023年実績"
+      value: "85",
+      unit: "%"
     },
     {
       title: "最短内定",
-      value: "7",
-      unit: "日",
-      note: "※最短記録・個人差あり"
+      value: "3",
+      unit: "日"
     }
   ];
 
@@ -40,7 +37,7 @@ export default function AchievementSection() {
                 <span className="text-3xl font-bold text-sun">{item.value}</span>
                 <span className="text-lg text-gray-700 ml-1">{item.unit}</span>
               </div>
-              <p className="text-xs text-gray-500 mt-2">{item.note}</p>
+              {item.note && <p className="text-xs text-gray-500 mt-2">{item.note}</p>}
             </div>
           ))}
         </div>

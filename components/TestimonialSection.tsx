@@ -1,43 +1,40 @@
 export default function TestimonialSection() {
   const testimonials = [
     {
-      name: "田中 健太",
+      name: "T.K さん",
       before: "コンビニバイト",
       beforeSalary: "年収180万円",
-      after: "IT企業 営業職",
-      afterSalary: "年収420万円",
-      company: "大手SaaS企業",
+      after: "営業職",
+      afterSalary: "年収700万円",
+      company: "大手不動産会社",
       age: "24歳・男性",
-      period: "転職まで2週間",
-      image: "/images/user1.jpg", // プレースホルダー
-      comment: "バイトを転々としていた自分でも、未経験からIT営業に挑戦できました。最初は不安でしたが、専任アドバイザーが履歴書の書き方から面接での話し方まで、本当に細かく教えてくれました。今では大手企業で正社員として働き、将来の不安がなくなりました。",
-      highlights: ["完全週休2日", "年間休日125日", "リモートワーク可"]
+      period: "内定まで2週間",
+      image: "/images/success-1.jpg",
+      comment: "バイトを転々としていた自分でも、未経験からIT営業に挑戦できました。最初は不安でしたが、専任アドバイザーが履歴書の書き方から面接での話し方まで、本当に細かく教えてくれました。今では大手企業で正社員として働き、将来の不安がなくなりました。"
     },
     {
-      name: "佐藤 美咲",
-      before: "派遣事務",
+      name: "M.S さん",
+      before: "倉庫作業員",
       beforeSalary: "年収240万円",
-      after: "商社 総合職",
-      afterSalary: "年収380万円",
-      company: "専門商社",
+      after: "建築系管理職",
+      afterSalary: "年収480万円",
+      company: "大手ゼネコン",
       age: "28歳・女性",
-      period: "転職まで3週間",
+      period: "内定まで1週間",
       image: "/images/user2.jpg", // プレースホルダー
-      comment: "派遣で5年間働いていましたが、将来が不安で転職を決意。総合職は無理だと思っていましたが、私の経験を活かせる企業を見つけてくれました。年収だけでなく、福利厚生も充実していて、初めてボーナスをもらった時は本当に嬉しかったです。",
-      highlights: ["賞与年2回", "退職金制度", "産休育休実績多数"]
+      comment: "派遣で5年間働いていましたが、将来が不安で転職を決意。総合職は無理だと思っていましたが、私の経験を活かせる企業を見つけてくれました。年収だけでなく、福利厚生も充実していて、初めてボーナスをもらった時は本当に嬉しかったです。"
     },
     {
-      name: "山田 翔",
+      name: "S.Y さん",
       before: "フリーター",
       beforeSalary: "年収200万円",
-      after: "製造業 技術職",
-      afterSalary: "年収400万円",
+      after: "機械系エンジニア",
+      afterSalary: "年収430万円",
       company: "上場メーカー",
       age: "22歳・男性",
-      period: "転職まで10日",
+      period: "内定まで5日",
       image: "/images/user3.jpg", // プレースホルダー
-      comment: "高卒でフリーターをしていた自分が、上場企業の正社員になれるなんて夢みたいです。手に職をつけたいという希望を伝えたら、研修制度が充実している企業を紹介してくれました。今では専門技術を身につけて、やりがいを持って働いています。",
-      highlights: ["社内研修充実", "資格取得支援", "寮・社宅完備"]
+      comment: "高卒でフリーターをしていた自分が、上場企業の正社員になれるなんて夢みたいです。手に職をつけたいという希望を伝えたら、研修制度が充実している企業を紹介してくれました。今では専門技術を身につけて、やりがいを持って働いています。"
     }
   ];
 
@@ -52,9 +49,11 @@ export default function TestimonialSection() {
             <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-lg p-6 shadow-md border border-gray-100">
               {/* ユーザー情報ヘッダー */}
               <div className="flex items-start mb-4">
-                <div className="w-16 h-16 bg-gray-300 rounded-full mr-4 flex items-center justify-center text-gray-500 text-xs">
-                  写真
-                </div>
+                <img 
+                  src={item.image} 
+                  alt={item.name} 
+                  className="w-16 h-16 rounded-full mr-4 object-cover" 
+                />
                 <div className="flex-1">
                   <p className="font-bold text-gray-900">{item.name}</p>
                   <p className="text-sm text-gray-600">{item.age}</p>
@@ -80,14 +79,6 @@ export default function TestimonialSection() {
                 </div>
               </div>
 
-              {/* 成功のポイント */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {item.highlights.map((highlight, idx) => (
-                  <span key={idx} className="bg-primary-light text-primary text-xs px-2 py-1 rounded-full font-medium">
-                    {highlight}
-                  </span>
-                ))}
-              </div>
 
               {/* コメント */}
               <div className="bg-gray-50 rounded-lg p-3">
