@@ -48,6 +48,7 @@ export default function MultiStepForm() {
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [showStudentError, setShowStudentError] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const progress = ((step - 1) / (TOTAL_STEPS - 1)) * 100;
 
@@ -131,6 +132,9 @@ export default function MultiStepForm() {
 
   const handleSubmit = async () => {
     if (!validateStep()) return;
+    if (hasSubmitted) return; // 重複送信防止
+    
+    setHasSubmitted(true); // 送信済みフラグを設定
     
     // 即座に完了画面を表示（楽観的UI）
     setStep(10);
@@ -145,7 +149,7 @@ export default function MultiStepForm() {
     
     // バックグラウンドで送信処理（リトライ機能付き）
     let retryCount = 0;
-    const maxRetries = 3;
+    const maxRetries = 1;
     
     while (retryCount < maxRetries) {
       try {
@@ -176,6 +180,7 @@ export default function MultiStepForm() {
           console.error('送信エラー:', error);
           setSubmitError('送信処理でエラーが発生しました。お手数ですが、お電話にてお問い合わせください。');
           setIsSubmitting(false);
+          setHasSubmitted(false); // エラー時は送信フラグをリセット
           break;
         }
         
@@ -560,8 +565,15 @@ export default function MultiStepForm() {
                 <p className="font-bold mb-1">ご注意</p>
                 <p className="text-sm">{submitError}</p>
                 <p className="text-sm mt-2">お急ぎの場合は下記までご連絡ください：</p>
-                <p className="text-sm font-bold">電話: 0120-XXX-XXXX</p>
-                <p className="text-sm font-bold">LINE ID: @gekokujo-career</p>
+                <p className="text-sm font-bold">電話: 070-4093-9633</p>
+                <a 
+                  href="https://lin.ee/NnxXPKx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-bold text-blue-600 underline hover:text-blue-800 block"
+                >
+                  LINEで相談する
+                </a>
               </motion.div>
             )}
             
