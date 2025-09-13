@@ -47,7 +47,6 @@ export default function MultiStepForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [showStudentError, setShowStudentError] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const progress = ((step - 1) / (TOTAL_STEPS - 1)) * 100;
@@ -118,7 +117,15 @@ export default function MultiStepForm() {
     }
     
     if (step === 9) {
-      if (!formData.email) newErrors.email = "メールアドレスを入力してください";
+      if (!formData.email) {
+        newErrors.email = "メールアドレスを入力してください";
+      } else if (/[^\x00-\x7F]/.test(formData.email)) {
+        // 日本語（全角文字）が含まれているかチェック
+        newErrors.email = "半角英数字で入力してください";
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        // メール形式チェック
+        newErrors.email = "正しいメールアドレスの形式で入力してください";
+      }
       if (!formData.phone) newErrors.phone = "電話番号を入力してください";
       if (formData.phone && formData.phone.length !== 11) {
         newErrors.phone = "電話番号は11桁で入力してください";
@@ -139,7 +146,6 @@ export default function MultiStepForm() {
     // 即座に完了画面を表示（楽観的UI）
     setStep(10);
     setIsSubmitting(true);
-    setSubmitError(null);
     
     // フォームデータをコピー（電話番号はハイフンなしで送信）
     const submitData = {
@@ -164,7 +170,8 @@ export default function MultiStepForm() {
         const result = await response.json();
         
         if (!result.success) {
-          throw new Error(result.error || '送信に失敗しました');
+          // エラーをログに記録するが、throwはしない（画面にエラーを表示しない）
+          console.log('送信エラー:', result.error || '送信に失敗しました');
         }
         
         // 成功したらフォームリセット
@@ -176,11 +183,10 @@ export default function MultiStepForm() {
         retryCount++;
         
         if (retryCount >= maxRetries) {
-          // すべてのリトライが失敗した場合
+          // すべてのリトライが失敗した場合（ログのみ、表示はしない）
           console.error('送信エラー:', error);
-          setSubmitError('送信処理でエラーが発生しました。お手数ですが、お電話にてお問い合わせください。');
           setIsSubmitting(false);
-          setHasSubmitted(false); // エラー時は送信フラグをリセット
+          // エラーでも完了画面のまま（楽観的UI）
           break;
         }
         
@@ -505,8 +511,20 @@ export default function MultiStepForm() {
               <label className="block text-sm font-medium text-gray-700 mb-1">メールアドレス</label>
               <input
                 type="email"
+                inputMode="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
+                onBlur={(e) => {
+                  const value = e.target.value;
+                  if (value) {
+                    // 日本語（全角文字）が含まれているかチェック
+                    if (/[^\x00-\x7F]/.test(value)) {
+                      setErrors({...errors, email: "半角英数字で入力してください"});
+                    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                      setErrors({...errors, email: "正しいメールアドレスの形式で入力してください"});
+                    }
+                  }
+                }}
                 className={`w-full p-3 border-2 rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${
                   errors.email ? "border-red-300" : "border-gray-200"
                 }`}
@@ -569,28 +587,6 @@ export default function MultiStepForm() {
         // 完了画面
         return (
           <div className="space-y-6 py-4">
-            {/* エラーメッセージ表示 */}
-            {submitError && (
-              <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-lg"
-              >
-                <p className="font-bold mb-1">ご注意</p>
-                <p className="text-sm">{submitError}</p>
-                <p className="text-sm mt-2">お急ぎの場合は下記までご連絡ください：</p>
-                <p className="text-sm font-bold">電話: 070-4093-9633</p>
-                <a 
-                  href="https://lin.ee/NnxXPKx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-bold text-blue-600 underline hover:text-blue-800 block"
-                >
-                  LINEで相談する
-                </a>
-              </motion.div>
-            )}
-            
             {/* 転職相談お申し込み完了バー */}
             <div className="bg-gradient-to-r from-green-500 to-green-600 text-white text-center py-3 rounded-lg font-bold shadow-lg">
               転職相談お申し込み完了

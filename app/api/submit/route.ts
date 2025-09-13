@@ -5,10 +5,18 @@ export async function POST(request: NextRequest) {
     // リクエストボディを取得
     const formData = await request.json();
     
-    // 電話番号に'を追加してスプレッドシートで文字列として扱う
+    // 電話番号をハイフン付きにフォーマット
+    const formatPhoneNumber = (phone: string): string => {
+      const numbers = phone.replace(/[^\d]/g, '');
+      if (numbers.length <= 3) return numbers;
+      if (numbers.length <= 7) return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+      return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+    };
+    
+    // 電話番号をフォーマットしてから'を追加
     const modifiedFormData = {
       ...formData,
-      phone: formData.phone ? `'${formData.phone}` : formData.phone
+      phone: formData.phone ? `'${formatPhoneNumber(formData.phone)}` : formData.phone
     };
     
     console.log('APIルート受信データ:', modifiedFormData);
