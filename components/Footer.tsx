@@ -11,12 +11,11 @@ export default function Footer() {
             プライバシーポリシー
           </a>
           <span className="text-gray-500">|</span>
-          <a href="/company" className="hover:text-sun transition-colors">
+          <a href="https://www.apoial.com/" target="_blank" rel="noopener noreferrer" className="hover:text-sun transition-colors">
             運営会社
           </a>
         </div>
         <div className="text-center text-sm text-gray-400">
-          <p className="mb-2">運営会社: Apoial, Inc.</p>
           <p>© 2024 下剋上キャリア ALL RIGHTS RESERVED.</p>
         </div>
       </div>

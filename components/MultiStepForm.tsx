@@ -475,7 +475,21 @@ export default function MultiStepForm() {
             </div>
             <button
               type="button"
-              onClick={handleNext}
+              onClick={() => {
+                // 必須項目のチェック
+                if (!formData.lastName || !formData.firstName || !formData.lastNameKana || !formData.firstNameKana || !formData.age) {
+                  // エラーメッセージを設定
+                  const newErrors: Partial<Record<keyof FormData, string>> = {};
+                  if (!formData.lastName) newErrors.lastName = "姓を入力してください";
+                  if (!formData.firstName) newErrors.firstName = "名を入力してください";
+                  if (!formData.lastNameKana) newErrors.lastNameKana = "せい（ひらがな）を入力してください";
+                  if (!formData.firstNameKana) newErrors.firstNameKana = "めい（ひらがな）を入力してください";
+                  if (!formData.age) newErrors.age = "年齢を選択してください";
+                  setErrors(newErrors);
+                  return;
+                }
+                handleNext();
+              }}
               className="w-full p-4 bg-gradient-to-r from-primary to-accent text-white font-bold rounded-xl hover:shadow-xl transform hover:-translate-y-0.5 transition-all"
             >
               次へ進む
@@ -531,8 +545,8 @@ export default function MultiStepForm() {
                 className="mt-1 w-5 h-5 text-primary border-2 rounded focus:ring-primary accent-primary"
               />
               <label htmlFor="agreement" className="text-sm text-gray-700">
-                <a href="/terms" className="text-primary font-medium hover:underline">利用規約</a>および
-                <a href="/privacy" className="text-primary font-medium hover:underline">プライバシーポリシー</a>に同意します
+                <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline">利用規約</a>および
+                <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline">プライバシーポリシー</a>に同意します
               </label>
             </div>
             {errors.agreed && <p className="text-red-500 text-xs">{errors.agreed}</p>}
