@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "下剋上キャリア | 今より稼げる仕事へ",
@@ -117,6 +118,7 @@ export default function RootLayout({
         {/* End Google Tag Manager (noscript) */}
 
         {children}
+        <Analytics />
       </body>
     </html>
   );
