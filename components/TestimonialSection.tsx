@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function TestimonialSection() {
   const testimonials = [
     {
@@ -7,7 +9,7 @@ export default function TestimonialSection() {
       company: "大手不動産会社",
       age: "24歳・男性",
       period: "内定まで2週間",
-      image: "/images/success-1.jpg",
+      image: "/images/success-1.webp",
       comment: "バイトを転々としていた自分でも、未経験から営業に挑戦できました。最初は不安でしたが、専任アドバイザーが履歴書の書き方から面接での話し方まで、本当に細かく教えてくれました。今では大手企業で正社員として働き、将来の不安がなくなりました。"
     },
     {
@@ -17,7 +19,7 @@ export default function TestimonialSection() {
       company: "大手ゼネコン",
       age: "25歳・女性",
       period: "内定まで1週間",
-      image: "/images/user2.jpg", // プレースホルダー
+      image: "/images/user2.webp", // プレースホルダー
       comment: "派遣で5年間働いていましたが、将来が不安で転職を決意。専門職は無理だと思っていましたが、私の経験を活かせる企業を見つけてくれました。年収だけでなく、福利厚生も充実していて、初めてボーナスをもらった時は本当に嬉しかったです。"
     },
     {
@@ -27,7 +29,7 @@ export default function TestimonialSection() {
       company: "メーカー",
       age: "22歳・男性",
       period: "内定まで5日",
-      image: "/images/user3.jpg", // プレースホルダー
+      image: "/images/user3.webp", // プレースホルダー
       comment: "高卒でフリーターをしていた自分が、上場企業の正社員になれるなんて夢みたいです。手に職をつけたいという希望を伝えたら、研修制度が充実している企業を紹介してくれました。今では専門技術を身につけて、やりがいを持って働いています。"
     }
   ];
@@ -43,10 +45,13 @@ export default function TestimonialSection() {
             <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-lg p-6 shadow-md border border-gray-100">
               {/* ユーザー情報ヘッダー */}
               <div className="flex items-start mb-4">
-                <img 
-                  src={item.image} 
-                  alt={item.name} 
-                  className="w-16 h-16 rounded-full mr-4 object-cover" 
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={64}
+                  height={64}
+                  className="w-16 h-16 rounded-full mr-4 object-cover"
+                  loading="lazy"
                 />
                 <div className="flex-1">
                   <p className="font-bold text-gray-900">{item.name}</p>

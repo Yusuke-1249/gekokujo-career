@@ -53,8 +53,8 @@ export default function MultiStepForm() {
 
   // マスコットの表情を決定
   const getMascotImage = () => {
-    if (step >= 7) return "/images/mascot-normal.png"; // step 7以降は笑顔
-    return "/images/mascot.png"; // デフォルトは炎の目
+    if (step >= 7) return "/images/mascot-normal.webp"; // step 7以降は笑顔
+    return "/images/mascot.webp"; // デフォルトは炎の目
   };
 
   const handleNext = () => {
@@ -319,9 +319,11 @@ export default function MultiStepForm() {
                 className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3"
               >
                 <motion.img
-                  src="/images/mascot-cry.png"
+                  src="/images/mascot-cry.webp"
                   alt="泣き顔マスコット"
                   className="w-16 h-16 flex-shrink-0"
+                  width={64}
+                  height={64}
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ duration: 0.5, ease: "backOut" }}
@@ -594,9 +596,11 @@ export default function MultiStepForm() {
 
             {/* 喜びライオンマスコット */}
             <motion.img 
-              src="/images/mascot-happy.png" 
+              src="/images/mascot-happy.webp" 
               alt="喜び顔マスコット" 
               className="w-32 h-32 mx-auto"
+              width={128}
+              height={128}
               initial={{ scale: 0, rotate: -10 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
@@ -706,6 +710,8 @@ export default function MultiStepForm() {
                 src={getMascotImage()}
                 alt="応援マスコット"
                 className="absolute -right-16 top-1/2 -translate-y-1/2 w-20 h-20"
+                width={80}
+                height={80}
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ 
                   scale: 1, 
@@ -755,6 +761,8 @@ export default function MultiStepForm() {
                     src={getMascotImage()}
                     alt="応援マスコット"
                     className="absolute -top-10 w-12 h-12 pointer-events-none z-10"
+                    width={48}
+                    height={48}
                     style={{ left: `calc(${progress}% - 24px)` }}
                     animate={{
                       y: step === TOTAL_STEPS ? [-10, -20, -10] : [0, -3, 0],

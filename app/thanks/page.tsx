@@ -15,9 +15,11 @@ export default function ThanksPage() {
         >
           {/* 満面の笑みマスコット */}
           <motion.img
-            src="/images/mascot-happy.png"
+            src="/images/mascot-happy.webp"
             alt="登録完了おめでとう！"
             className="w-32 h-32 mx-auto mb-6"
+            width={128}
+            height={128}
             initial={{ scale: 0, rotate: -360 }}
             animate={{ 
               scale: 1, 
