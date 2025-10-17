@@ -48,8 +48,10 @@ export default function TestimonialSection() {
                 <Image
                   src={item.image}
                   alt={item.name}
-                  width={64}
-                  height={64}
+                  width={96}
+                  height={96}
+                  sizes="64px"
+                  quality={90}
                   className="w-16 h-16 rounded-full mr-4 object-cover"
                   loading="lazy"
                 />
