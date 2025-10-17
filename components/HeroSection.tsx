@@ -8,7 +8,7 @@ export default function HeroSection() {
       <div className="max-w-md mx-auto">
         {/* ヒーロー画像 */}
         <Image
-          src="/images/hero-main-20251017-171147.webp"
+          src="/images/hero-main-20251017-171147-bright.webp"
           alt="今日から下剋上転職 - 20代特化、初めての転職歓迎"
           width={1200}
           height={1200}
