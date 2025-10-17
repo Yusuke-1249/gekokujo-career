@@ -145,54 +145,49 @@ export default function MultiStepForm() {
     
     setHasSubmitted(true); // 送信済みフラグを設定
     setIsSubmitting(true);
-    
+
     // フォームデータをコピー（電話番号はハイフンなしで送信）
     const submitData = {
       ...formData,
       phone: formData.phone.replace(/-/g, '') // ハイフンを除去
     };
-    
-    // バックグラウンドで送信処理（リトライ機能付き）
-    let retryCount = 0;
-    const maxRetries = 1;
-    
-    while (retryCount < maxRetries) {
-      try {
-        const response = await fetch('/api/submit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(submitData),
-        });
-        
-        const result = await response.json();
-        
-        if (!result.success) {
-          // エラーをログに記録するが、throwはしない（画面にエラーを表示しない）
-          console.log('送信エラー:', result.error || '送信に失敗しました');
-        }
-        
-        // 成功したらフォームリセット
-        setFormData(initialFormData);
-        setIsSubmitting(false);
-        router.push("/thanks");
-        break; // 成功したらループを抜ける
-        
-      } catch (error) {
-        retryCount++;
-        
-        if (retryCount >= maxRetries) {
-          // すべてのリトライが失敗した場合（ログのみ、表示はしない）
-          console.error('送信エラー:', error);
-          setIsSubmitting(false);
+
+    const sendInBackground = async () => {
+      let retryCount = 0;
+      const maxRetries = 1;
+
+      while (retryCount < maxRetries) {
+        try {
+          const response = await fetch('/api/submit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(submitData),
+          });
+
+          const result = await response.json();
+
+          if (!result.success) {
+            console.log('送信エラー:', result.error || '送信に失敗しました');
+          }
+
           break;
+        } catch (error) {
+          retryCount++;
+
+          if (retryCount >= maxRetries) {
+            console.error('送信エラー:', error);
+            break;
+          }
+
+          await new Promise(resolve => setTimeout(resolve, 1000));
         }
-        
-        // リトライ前に1秒待機
-        await new Promise(resolve => setTimeout(resolve, 1000));
       }
-    }
+    };
+
+    router.push("/thanks");
+    void sendInBackground();
   };
   
 
