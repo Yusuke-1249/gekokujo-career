@@ -26,8 +26,19 @@ const config: Config = {
         },
       },
       fontFamily: {
-        'sans': ['"Noto Sans JP"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
-        'display': ['"Zen Kaku Gothic New"', '"Noto Sans JP"', 'sans-serif'],
+        sans: [
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          'sans-serif',
+        ],
+        display: [
+          '"Segoe UI"',
+          'system-ui',
+          'sans-serif',
+        ],
       },
       animation: {
         "slide-up": "slideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
