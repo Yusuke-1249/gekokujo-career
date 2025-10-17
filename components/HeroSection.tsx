@@ -6,7 +6,7 @@ export default function HeroSection() {
       <div className="max-w-md mx-auto">
         {/* ヒーロー画像 */}
         <img
-          src="/images/hero-main.jpg"
+          src="/images/hero-main.png"
           alt="今日から下剋上転職 - 20代特化、初めての転職歓迎"
           className="w-full h-auto"
           onError={(e) => {
