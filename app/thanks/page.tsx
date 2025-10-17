@@ -6,108 +6,99 @@ import Link from "next/link";
 export default function ThanksPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-primary-light to-accent-light flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="bg-white rounded-3xl shadow-2xl p-8 text-center relative overflow-hidden"
-        >
-          {/* 満面の笑みマスコット */}
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="max-w-md w-full"
+      >
+        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100 space-y-6">
+          <div className="bg-gradient-to-r from-green-500 to-green-600 text-white text-center py-3 rounded-lg font-bold shadow-lg">
+            転職相談お申し込み完了
+          </div>
+
           <motion.img
             src="/images/mascot-happy.webp"
-            alt="登録完了おめでとう！"
-            className="w-32 h-32 mx-auto mb-6"
+            alt="喜び顔マスコット"
+            className="w-32 h-32 mx-auto"
             width={128}
             height={128}
-            initial={{ scale: 0, rotate: -360 }}
-            animate={{ 
-              scale: 1, 
-              rotate: 0,
-              y: [0, -10, 0]
-            }}
-            transition={{
-              scale: { duration: 0.8, ease: "backOut" },
-              rotate: { duration: 0.8, ease: "easeOut" },
-              y: {
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }
-            }}
+            initial={{ scale: 0, rotate: -10 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
           />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-3xl font-bold text-primary mb-4"
-          >
-            登録完了！
-          </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="space-y-4 mb-8"
-          >
-            <p className="text-gray-700 text-lg font-medium">
-              お申し込みありがとうございます！
+          <div className="text-center space-y-2">
+            <h1 className="text-2xl font-bold text-gray-900">
+              ご登録ありがとうございます！
+            </h1>
+            <p className="text-lg text-gray-700">
+              今後の流れについて、ご説明いたします。
             </p>
-            <p className="text-gray-600">
-              担当アドバイザーより<br />
-              <span className="font-bold text-primary">24時間以内</span>にご連絡いたします
+          </div>
+
+          <div className="bg-white rounded-xl shadow-md p-5 space-y-3">
+            <h2 className="font-bold text-lg text-gray-900">転職相談について</h2>
+            <div className="space-y-2 text-left">
+              <div className="flex items-start">
+                <span className="text-primary mr-2">✓</span>
+                <span className="text-gray-700">相談からお仕事紹介まで<span className="text-primary font-bold">完全無料</span></span>
+              </div>
+              <div className="flex items-start">
+                <span className="text-primary mr-2">✓</span>
+                <span className="text-gray-700">履歴書／職務経歴書も<span className="text-primary font-bold">作成します</span></span>
+              </div>
+              <div className="flex items-start">
+                <span className="text-primary mr-2">✓</span>
+                <span className="text-gray-700">やりたいことが<span className="text-primary font-bold">決まってなくてもOK</span></span>
+              </div>
+              <div className="flex items-start">
+                <span className="text-primary mr-2">✓</span>
+                <span className="text-gray-700">他では<span className="text-primary font-bold">公開されていない求人</span>もご紹介</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-md p-5 space-y-3">
+            <p className="text-gray-700 font-bold text-center">
+              下記番号からお電話させていただきます！
             </p>
-          </motion.div>
+            <div className="space-y-2">
+              <div className="bg-gray-50 rounded-lg p-3">
+                <a href="tel:090-4725-7418" className="block text-center text-gray-800 text-xl font-bold hover:text-gray-600">
+                  090-4725-7418
+                </a>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-3">
+                <a href="tel:070-4093-9633" className="block text-center text-gray-800 text-xl font-bold hover:text-gray-600">
+                  070-4093-9633
+                </a>
+              </div>
+            </div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="bg-gradient-to-r from-primary-light to-accent-light p-6 rounded-xl mb-6"
-          >
-            <h2 className="font-bold text-gray-900 mb-3">次のステップ</h2>
-            <ol className="text-left text-sm space-y-2">
-              <li className="flex items-start">
-                <span className="text-primary font-bold mr-2">1.</span>
-                <span>アドバイザーからの連絡をお待ちください</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-primary font-bold mr-2">2.</span>
-                <span>あなたの希望を詳しくヒアリング</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-primary font-bold mr-2">3.</span>
-                <span>最適な求人をご紹介</span>
-              </li>
-            </ol>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
-            <Link
-              href="/"
-              className="inline-block text-sm text-gray-500 hover:text-primary transition-colors"
+          <div className="text-center space-y-3">
+            <p className="text-green-600 font-bold">
+              LINEでの相談日時のご希望も<br />
+              受け付けております！
+            </p>
+            <a 
+              href="https://lin.ee/NnxXPKx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors"
             >
-              トップページへ戻る
-            </Link>
-          </motion.div>
-        </motion.div>
+              <span className="mr-2">LINE</span> 友だち追加
+            </a>
+          </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="text-center text-xs text-gray-600 mt-6"
-        >
-          ※迷惑メール設定をご確認ください<br />
-          ※電話番号の入力に誤りがないかご確認ください
-        </motion.p>
-      </div>
+          <div className="text-center text-sm text-gray-500">
+            <Link href="/" className="text-primary font-semibold hover:underline">
+              トップページに戻る
+            </Link>
+          </div>
+        </div>
+      </motion.div>
     </main>
   );
 }
